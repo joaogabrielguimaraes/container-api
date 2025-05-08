@@ -117,7 +117,7 @@ Selecione o método GET;
 
 Insira a URL: http://localhost:8080/carros
 
-Insira a URL para ibter um item específico por ID: http://localhost:8080/carros/id
+Insira a URL para obter um item específico por ID: http://localhost:8080/carros/id
 
 Clique em "Send" e veja a resposta no painel inferior;
 
