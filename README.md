@@ -1,145 +1,155 @@
-Agora, dentro da pasta onde está o docker-compose.yml, execute:
+# 🚗 API REST de Cadastro de Carros
 
+API simples para gerenciar um cadastro de carros, permitindo operações de CRUD (Criar, Ler, Atualizar e Deletar) via requisições HTTP. Desenvolvida em PHP com banco MySQL, orquestrada via Docker Compose para facilitar o ambiente de desenvolvimento.
+
+---
+
+## ❓ O que é?
+
+Esta API permite gerenciar informações de veículos, armazenando dados como **marca**, **modelo** e **ano**. Ideal para projetos que precisam de um backend leve para cadastro e consulta de carros, podendo ser usada em aplicações web, mobile ou para aprendizado.
+
+---
+
+## 🛠️ Tecnologias
+
+- PHP 7+ com PDO para conexão ao banco
+- MySQL
+- Docker e Docker Compose
+- Postman (ou qualquer cliente HTTP) para testes
+
+---
+
+## 🚀 Como executar
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/api-carros.git
+cd api-carros
+```
+
+2. Execute o Docker Compose para subir o ambiente:
+
+```bash
 docker-compose up -d
-Isso fará o PHP com Apache e o MySQL subirem juntos!
+```
 
-Para testar, acesse o Postman:
+> Isso irá subir o container do PHP + Apache e do MySQL juntos.
 
-http://localhost:8080/carros
+---
 
---> Documentação da API de Cadastro de Carros
+## 🌐 Endpoints da API
 
-Esta API permite realizar operações de CRUD (Criar, Ler, Atualizar, Deletar) em itens. 
-Os itens podem ser registrados com informações como "Marca", "Modelo", e "Ano".
+**Base URL:** `http://localhost:8080/carros`
 
-* OBS retorno com erro: 
+### ➕ Criar um carro (POST)
 
-    {
-        "error": "Rota não encontrada"
-    }
+- **URL:** `/carros`
+- **Descrição:** Cadastra um novo carro.
+- **Exemplo JSON no Body:**
 
-<!-- Endereços (Endpoints) e Métodos HTTP -->
+```json
+{
+  "marca": "Fiat",
+  "modelo": "Uno",
+  "ano": 2010
+}
+```
 
-1. Método: POST - Cadastrar Carro
+- **Resposta:**
 
-URL: http://localhost:8080/carros
+```json
+{
+  "status": "Carro inserido"
+}
+```
 
-Descrição: Cria um novo carro com as informações fornecidas no corpo da requisição.
+---
 
-EXEMPLO de inserção:
+### 📋 Listar todos os carros (GET)
 
-    {
-        "marca": "Fiat",
-        "modelo": "Uno",
-        "ano": 2010
-    }
+- **URL:** `/carros`
+- **Descrição:** Retorna todos os carros cadastrados.
+- **Resposta exemplo:**
 
-Retorno com sucesso:
+```json
+[
+  {
+    "id": 2,
+    "marca": "Fiat",
+    "modelo": "Uno",
+    "ano": 2010
+  },
+  {
+    "id": 3,
+    "marca": "Toyota",
+    "modelo": "Corolla",
+    "ano": 2020
+  }
+]
+```
 
-    {
-        "status": "Carro inserido"
-    }   
+---
 
-2. Método: GET - Listar Todos os Carros
+### 🔎 Obter um carro específico (GET)
 
-URL: http://localhost:8080/carros
+- **URL:** `/carros/{id}`
+- **Descrição:** Retorna os dados do carro com o ID especificado.
+- **Exemplo:** `/carros/2`
 
-Descrição: Retorna todos os carros cadastrados.
+---
 
-EXEMPLO - retorno com sucesso:
+### ✏️ Atualizar um carro (PUT)
 
-    {
-        "id": 2,
-        "marca": "Fiat",
-        "modelo": "Uno",
-        "ano": 2010
-    },
-    {
-        "id": 3,
-        "marca": "Toyota",
-        "modelo": "Corolla",
-        "ano": 2020
-    }
+- **URL:** `/carros/{id}`
+- **Descrição:** Atualiza as informações do carro com o ID especificado.
+- **Exemplo JSON no Body:**
 
-* Obter um carro específico utilizando o ID do mesmo.
+```json
+{
+  "marca": "Fiat",
+  "modelo": "Uno",
+  "ano": 2011
+}
+```
 
-URL: http://localhost:8080/carros/2
+- **Resposta:**
 
-3. Método: PUT - Atualizar Item 
+```json
+{
+  "status": "Carro atualizado"
+}
+```
 
-URL: http://localhost:8080/carros/id
+---
 
-Descrição: Atualiza as informações de um carro existente.
+### 🗑️ Deletar um carro (DELETE)
 
-Exemplo de inserção:
+- **URL:** `/carros/{id}`
+- **Descrição:** Remove o carro com o ID especificado.
+- **Resposta:**
 
-    {
-        "marca": "Fiat",
-        "modelo": "Uno",
-        "ano": 2010
-    }
+```json
+{
+  "status": "Carro excluído"
+}
+```
 
-Resposta com sucesso:
+---
 
-    {
-        "status": "Carro atualizado"
-    }
+## ⚠️ Erros comuns
 
-5. Método: Delete - Deletar Item 
+- ❌ **Rota não encontrada:** Quando a URL não bate com nenhum endpoint.
+- ⚠️ **Dados incompletos:** Quando o corpo da requisição não contém todos os campos necessários.
+- 🚫 **Método não permitido:** Quando o método HTTP não é suportado.
 
-URL: http://localhost:8080/carros/id
+---
 
-Descrição: Deleta um carro específico.
+## 🧪 Testando a API
 
-Resposta com sucesso:
+Você pode usar o Postman, Insomnia ou curl para enviar requisições HTTP.
 
-    {
-        "message": "Carro excluído"
-    }
+---
 
-<!-- Método de teste - Uso com o Postman -->
-
-* POST: 
-
-Selecione o método POST;
-
-Insira a URL: http://localhost:8080/carros
-
-Vá para a aba Body e selecione raw. Escolha o tipo JSON;
-
-Insira o JSON, conforme mencionado anteriormente (1);
-
-Clique em "Send" e veja a resposta no painel inferior;
-
-* GET: 
-
-Selecione o método GET;
-
-Insira a URL: http://localhost:8080/carros
-
-Insira a URL para obter um item específico por ID: http://localhost:8080/carros/id
-
-Clique em "Send" e veja a resposta no painel inferior;
-
-* PUT: 
-
-Selecione o método PUT.
-
-Insira a URL do item: http://localhost:8080/carros/id
-
-Vá para a aba Body, selecione raw. Escolha o tipo JSON e insira as novas informações do item.
-
-Clique em "Send" e veja a resposta no painel inferior;
-
-* DELETE: 
-
-Selecione o método DELETE.
-
-Insira a URL do item a ser deletado: http://localhost:8080/carros/id
-
-Clique em "Send" e veja a resposta no painel inferior;
-
-
-
-
+**Desenvolvido por João Gabriel Guimarães**
 
